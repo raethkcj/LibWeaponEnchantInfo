@@ -14,6 +14,9 @@ FLAMETONGUE_ID = {
 	[1683] = true -- Rank 4
 }
 
+WINDFURY_ICON = 136114
+FLAMETONGUE_ICON = 136040
+
 -- Addon Message Prefixes
 WEI_ENCHANT_APPLIED = "WEI_EnchantApplied"
 WEI_ENCHANT_REMOVED = "WEI_EnchantRemoved"
@@ -45,13 +48,20 @@ function LibWeaponEnchantInfo_OnEvent(self, event, ...)
 			-- We use Server Time so that it's synced when sending it to our party.
 			local expiration = GetServerTime() + 10
 
+			local icon = nil
+			if WINDFURY_ID[enchantID] then
+				icon = WINDFURY_ICON
+			else
+				icon = FLAMETONGUE_ICON
+			end
+
 			-- Tell our party to update their table
-			C_ChatInfo.SendAddonMessage(WEI_ENCHANT_APPLIED, name..","..expiration..","..enchantID)
+			C_ChatInfo.SendAddonMessage(WEI_ENCHANT_APPLIED, name..","..expiration..","..icon)
 
 			-- Update ourselves in our local table
 			WEAPON_ENCHANT_INFO[name] = {}
 			WEAPON_ENCHANT_INFO[name].expiration = expiration
-			WEAPON_ENCHANT_INFO[name].enchantID = enchantID
+			WEAPON_ENCHANT_INFO[name].icon = icon
 		else
 			-- The weapon might have a new enchant but if it's not Windfury or Flametongue, pretend it has none
 
@@ -64,12 +74,12 @@ function LibWeaponEnchantInfo_OnEvent(self, event, ...)
 	elseif event == "CHAT_MSG_ADDON" then
 		local prefix = select(1,...)
 		if prefix == WEI_ENCHANT_APPLIED then
-			local name, expiration, enchantID = select(2,...):match(("([^,]*)[,]?"):rep(3))
+			local name, expiration, icon = select(2,...):match(("([^,]*)[,]?"):rep(3))
 
 			WEAPON_ENCHANT_INFO[name] = {}
 
 			WEAPON_ENCHANT_INFO[name].expiration = expiration
-			WEAPON_ENCHANT_INFO[name].enchantID = enchantID
+			WEAPON_ENCHANT_INFO[name].icon = icon
 
 		elseif prefix == WEI_ENCHANT_REMOVED then
 			local name = select(2,...)
@@ -81,12 +91,12 @@ end
 -- Returns:
 --   boolean hasMainHandEnchant
 --   string expiration (Local Time, in seconds)
---   string Enchant ID
+--   string icon
 function GetPartyWeaponEnchantInfo(name)
 	if WEAPON_ENCHANT_INFO[name] then
 		-- Convert from Server Time to local PC time
 		local localExpiration = (WEAPON_ENCHANT_INFO[name].expiration - GetServerTime()) + GetTime()
-		return true, localExpiration, WEAPON_ENCHANT_INFO[name].enchantID
+		return true, localExpiration, WEAPON_ENCHANT_INFO[name].icon
 	else
 		return false
 	end
