@@ -1,0 +1,8 @@
+## Interface: 11302
+## Title: LibWeaponEnchantInfo
+## Version: 1.0
+## Notes: UI Enhancements
+## Author: Raethkcj/Daytrip
+## SavedVariables: WEAPON_ENCHANT_INFO_CONFIG
+
+LibWeaponEnchantInfo.xml

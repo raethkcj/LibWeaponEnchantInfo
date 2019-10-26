@@ -1,0 +1,10 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
+	<Script file="LibWeaponEnchantInfo.lua"/>
+	<Frame name="LibWeaponEnchantInfo">	
+		<Scripts>
+			<OnLoad function="LibWeaponEnchantInfo_OnLoad" />
+			<OnEvent function="LibWeaponEnchantInfo_OnEvent" />
+		</Scripts>
+	</Frame>
+</Ui>
