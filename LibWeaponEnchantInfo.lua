@@ -56,7 +56,7 @@ function LibWeaponEnchantInfo_OnEvent(self, event, ...)
 			end
 
 			-- Tell our party to update their table
-			C_ChatInfo.SendAddonMessage(WEI_ENCHANT_APPLIED, name..","..expiration..","..icon)
+			C_ChatInfo.SendAddonMessage(WEI_ENCHANT_APPLIED, name..","..expiration..","..icon,"PARTY")
 
 			-- Update ourselves in our local table
 			WEAPON_ENCHANT_INFO[name] = {}
